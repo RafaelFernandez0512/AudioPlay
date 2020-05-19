@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             mc:Ignorable="d"
+             x:Class="AudioPlay.Views.ControlsTemplates.PlayerView"
+             IsVisible="{Binding IsClean}"
+             >
+    <ContentView.Content>
+        <yummy:PancakeView  CornerRadius="20" >
+            <yummy:PancakeView.BackgroundGradientStops>
+                <yummy:GradientStopCollection>
+                    <yummy:GradientStop Color="#091426" Offset="0" />
+                    <yummy:GradientStop Color="#070707" Offset="0.7" />
+                </yummy:GradientStopCollection>
+            </yummy:PancakeView.BackgroundGradientStops>
+            <Grid Padding="10"
+                      HeightRequest="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Text=""
+                           TextColor="White"
+                           FontSize="26"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                               FontFamily="FontAwesomeSolid"/>
+                <Label Text="" 
+                           FontSize="26"
+                           HorizontalTextAlignment="Center"
+                           TextColor="White"
+                           VerticalTextAlignment="Center"
+                           FontFamily="FontAwesomeSolid"
+                               Grid.Column="1">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChangeMusicCommand}" CommandParameter="P"/>
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <yummy:PancakeView BorderColor="White"
+                                       BorderThickness="2"
+                                       Grid.Column="2"
+                                 CornerRadius="20"
+                                 WidthRequest="40"
+                                       Elevation="50"
+                                       HasShadow="True"
+                                 >
+                    <Image Source="MusicIcon" Aspect="AspectFill"/>
+                    <yummy:PancakeView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToMusicCommand}"/>
+                    </yummy:PancakeView.GestureRecognizers>
+                </yummy:PancakeView>
+                <Label Text="" 
+                           VerticalTextAlignment="Center"
+                           FontSize="26"
+                           HorizontalTextAlignment="Center"
+                           TextColor="White"
+                               Grid.Column="3"
+                           FontFamily="FontAwesomeSolid">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding SelectMusic.IsPlaying}"
+                                     Value="false">
+                            <Setter Property="Text" Value=""/>
+                        </DataTrigger>
+                    </Label.Triggers>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding PlayCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text=""
+                           VerticalTextAlignment="Center"
+                            FontSize="26"
+                           HorizontalTextAlignment="Center"
+                           TextColor="White"
+                               Grid.Column="4"
+                           FontFamily="FontAwesomeSolid">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChangeMusicCommand}" CommandParameter="N"/>
+                    </Label.GestureRecognizers>
+                </Label>
+
+            </Grid>
+        </yummy:PancakeView>
+    </ContentView.Content>
+</ContentView>

@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             mc:Ignorable="d"
+             x:Class="AudioPlay.Views.PrincipalPages.HomePage"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
+             xmlns:converters="clr-namespace:AudioPlay.Converters"
+             xmlns:viewModels="clr-namespace:AudioPlay.ViewModels"
+             xmlns:sharedTransitions="clr-namespace:Plugin.SharedTransitions;assembly=Plugin.SharedTransitions"
+             sharedTransitions:SharedTransitionNavigationPage.TransitionSelectedGroup="{Binding SelectTitle}"
+             sharedTransitions:SharedTransitionNavigationPage.BackgroundAnimation="SlideFromLeft"
+             sharedTransitions:SharedTransitionNavigationPage.TransitionDuration="300"
+             xmlns:controlstemplates="clr-namespace:AudioPlay.Views.ControlsTemplates"
+             xmlns:viewmodels="clr-namespace:AudioPlay.ViewModels"
+             x:DataType="viewmodels:HomePageViewModel"
+             xmlns:models="clr-namespace:AudioPlay.Models">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="yummy:PancakeView">
+                <Setter Property="CornerRadius" Value="30"/>
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontFamily" Value="RalewayRegular"/>
+            </Style>
+            <converters:StringToColorHex x:Key="StringToColorHex"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <NavigationPage.TitleView>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Text="Music Player"
+                   FontSize="28"
+                   Grid.Column="0"
+                   HorizontalTextAlignment="Center"
+                   FontFamily="Raleway-Bold"/>
+            <Label Text=""
+                   FontSize="18"
+                   Margin="0,0,20,0"
+                   Grid.Column="1"
+                   FontFamily="FontAwesomeSolid"/>
+        </Grid>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <Grid>
+            <yummy:PancakeView 
+                           CornerRadius="0"
+                           Visual="Material">
+                <yummy:PancakeView.BackgroundGradientStops>
+                    <yummy:GradientStopCollection>
+                        <yummy:GradientStop Color="#2D1D2F" Offset="0" />
+                        <yummy:GradientStop Color="#091426" Offset="0.6 " />
+                        <yummy:GradientStop Color="#070707" Offset="1" />
+                    </yummy:GradientStopCollection>
+                </yummy:PancakeView.BackgroundGradientStops>
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <CarouselView ItemsSource="{Binding TopsMusics}"
+                          PeekAreaInsets="60"
+                          CurrentItem="{Binding CurrentMusic,Mode=TwoWay}"
+                          Grid.Row="0"
+                          HeightRequest="200"
+                          >
+                        <CarouselView.ItemsLayout>
+                            <LinearItemsLayout 
+                    Orientation="Horizontal" 
+                    SnapPointsAlignment="Center" 
+                    SnapPointsType="MandatorySingle"
+                        ItemSpacing="1"/>
+                        </CarouselView.ItemsLayout>
+                        <CarouselView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Music">
+                                <Grid Padding="10,35,10,35"  >
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:HomePageViewModel}}, Path=SelectCommad}"
+                                                              CommandParameter="{Binding Source={RelativeSource Self}, Path=BindingContext}"/>
+                                    </Grid.GestureRecognizers>
+                                    <Grid.Triggers>
+                                        <DataTrigger TargetType="Grid"
+                                             Binding="{Binding IsEnable}"
+                                             Value="true">
+                                            <Setter Property="Padding" Value="10,20,10,20"/>
+                                        </DataTrigger>
+                                    </Grid.Triggers>
+                                    <yummy:PancakeView sharedTransitions:Transition.Group="{Binding Title}"
+                                      sharedTransitions:Transition.Name="PlayMusicPancake" >
+                                        <Image Source="{Binding Image,TargetNullValue='MusicIcon.png'}"
+                                       Aspect="AspectFill" sharedTransitions:Transition.Group="{Binding Title}"
+                                      sharedTransitions:Transition.Name="PlayMusicImage">
+                                            <Image.Triggers>
+                                                <DataTrigger TargetType="Image"
+                                                         Binding="{Binding Image,TargetNullValue='MusicIcon.png'}"
+                                                         Value="MusicIcon.png">
+                                                    <Setter Property="Aspect" Value="AspectFit"/>
+                                                </DataTrigger>
+                                            </Image.Triggers>
+                                        </Image>
+                                    </yummy:PancakeView>
+
+                                    <BoxView 
+                                     CornerRadius="30"
+                                     IsEnabled="False"
+                                     >
+                                        <BoxView.Triggers>
+                                            <DataTrigger TargetType="BoxView"
+                                             Binding="{Binding IsEnable}"
+                                             Value="false">
+                                                <Setter Property="Opacity" Value="0.5"/>
+                                                <Setter Property="IsVisible" Value="True"/>
+                                                <Setter Property="BackgroundColor" Value="Black"/>
+                                            </DataTrigger>
+                                        </BoxView.Triggers>
+                                    </BoxView>
+                                    <Label Text="{Binding Title}"
+                                       VerticalOptions="EndAndExpand"
+                                       LineBreakMode="TailTruncation"
+                                   FontSize="20"
+                                     sharedTransitions:Transition.Group="{Binding Title}"
+                                     sharedTransitions:Transition.Name="PlayMusicTitle"
+                                   HorizontalOptions="CenterAndExpand"/>
+                                </Grid>
+
+                            </DataTemplate>
+                        </CarouselView.ItemTemplate>
+                    </CarouselView>
+                    <Label Grid.Row="1"
+                   VerticalOptions="CenterAndExpand"
+                   Margin="20,0,0,0"
+                   
+                    FontSize="24"
+                   >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Playlists" FontFamily="Raleway-Bold" FontSize="24"/>
+                                <Span Text=" " FontFamily="FontAwesomeSolid" FontSize="24"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Grid.Row="1"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="EndAndExpand"
+                   Text=""
+                   Margin="0,0,20,0"
+                   FontFamily="FontAwesomeSolid"
+                    FontSize="26">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToMusicCommand}" CommandParameter="MyPlaylist"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <CollectionView Grid.Row="2" 
+                            ItemsSource="{Binding MyPlaylist}"
+                            HeightRequest="130"
+                                    SelectedItem="{Binding SelectAlbum}"
+                                    SelectionMode="Single"
+                            >
+
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal"
+                                       ItemSpacing="20"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Album">
+                                <Grid HeightRequest="150"
+                              WidthRequest="150"
+                                      BackgroundColor="#091426"
+                                  >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <yummy:PancakeView BackgroundColor="Transparent"
+                                                   HasShadow="True"
+                                               >
+                                        <Grid>
+                                            <Image Source="{Binding Image}"
+                                                   x:Name="ControlLabe"
+                                                           Aspect="AspectFill"
+                                                  >
+                                                <Image.Triggers>
+                                                    <DataTrigger TargetType="Image"
+                                                         Binding="{Binding Image, TargetNullValue='0'}"
+                                                             Value="0">
+                                                        <Setter Property="IsVisible" Value="False"/>
+                                                    </DataTrigger>
+                                                </Image.Triggers>
+                                            </Image>
+                                            <Label Text=""   
+                                                           FontSize="60" 
+                                                           VerticalOptions="CenterAndExpand"
+                                                           HorizontalOptions="CenterAndExpand"  IsVisible="False"
+                                                           TextColor="{Binding Image,Converter={StaticResource StringToColorHex}}" FontFamily="FontAwesomeSolid">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label"
+                                                                 Binding="{Binding Image, TargetNullValue='0'}"
+                                                                 Value="0">
+                                                        <Setter Property="IsVisible" Value="True"/>
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                        </Grid>
+                                    </yummy:PancakeView>
+                                    <Label Grid.Row="1"
+                                   VerticalOptions="CenterAndExpand"
+                                   LineBreakMode="TailTruncation"
+                                   FontSize="12"
+                                   HorizontalOptions="CenterAndExpand"
+                                   Text="{Binding Title}"
+                                   FontFamily="RalewayRegular"   />
+                                </Grid>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <Label Grid.Row="3"
+                   VerticalOptions="CenterAndExpand"
+                   Margin="20,0,0,0"
+                   
+
+                   >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Genrec" FontFamily="Raleway-Bold" FontSize="24"/>
+                                <Span Text=" " FontFamily="FontAwesomeSolid" FontSize="24"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Grid.Row="3"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="EndAndExpand"
+                   Text=""
+                   Margin="0,0,20,0"
+                   FontFamily="FontAwesomeSolid"
+                    FontSize="26">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToMusicCommand}" CommandParameter="MyPlaylist"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <CollectionView Grid.Row="4" ItemsSource="{Binding MusicGenrecs}"
+                            HeightRequest="100">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal"
+                                       ItemSpacing="10"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Album">
+                                <yummy:PancakeView BackgroundGradientStartColor="{Binding Title,Converter={StaticResource StringToColorHex}}"
+                                               BackgroundGradientEndColor="Black"
+                                               Elevation="50"
+                                               BackgroundGradientAngle="40"
+                                           Margin="35,30,35,30"
+                                           WidthRequest="50">
+                                    <Label Grid.Row="1"
+                                   VerticalOptions="CenterAndExpand"
+                                   LineBreakMode="TailTruncation"
+                                   FontSize="20"
+                                   FontFamily="RalewayRegular"    
+                                   HorizontalOptions="CenterAndExpand"
+                                   Text="{Binding Title}"/>
+                                </yummy:PancakeView>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </yummy:PancakeView>
+            <controlstemplates:PlayerView 
+                               VerticalOptions="EndAndExpand"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
+    

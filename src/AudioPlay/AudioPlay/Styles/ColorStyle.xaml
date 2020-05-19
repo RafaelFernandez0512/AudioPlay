@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AudioPlay.Styles.ColorStyle">
+    <Color x:Key="PrimaryColor">#000000</Color>
+    <Color x:Key="PrimaryColorLight">#151626</Color>
+    <Color x:Key="GrayColor">#8d948d</Color>
+    <Color x:Key="SlideryColor">#00a8ad</Color>
+    <Color x:Key="GreenColor">#12e0a9</Color>
+</ResourceDictionary>

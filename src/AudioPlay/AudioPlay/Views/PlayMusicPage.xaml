@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AudioPlay.Views.PrincipalPages.PlayMusicPage"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
+             xmlns:sharedTransitions="clr-namespace:Plugin.SharedTransitions;assembly=Plugin.SharedTransitions"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             sharedTransitions:SharedTransitionNavigationPage.BackgroundAnimation="Fade"
+             xmlns:viewModels="clr-namespace:AudioPlay.ViewModels"
+             x:DataType="viewModels:PlayMusicPageViewModel"
+             Visual="Material">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontFamily" Value="RalewayRegular"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content  >
+        <yummy:PancakeView>
+            <yummy:PancakeView.BackgroundGradientStops>
+                <yummy:GradientStopCollection>
+                    <yummy:GradientStop Color="#2D1D2F" Offset="0" />
+                    <yummy:GradientStop Color="#091426" Offset="0.6 " />
+                    <yummy:GradientStop Color="#070707" Offset="1" />
+                </yummy:GradientStopCollection>
+            </yummy:PancakeView.BackgroundGradientStops>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label 
+                   Grid.ColumnSpan="2"
+                   FontSize="24"
+                    sharedTransitions:Transition.Name="PlayMusicTitle"
+                   Margin="15"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="CenterAndExpand">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{Binding SelectMusic.Title}"/>
+                            <Span Text="{Static system:Environment.NewLine}"/>
+                            <Span Text="{Binding SelectMusic.Artist}" FontSize="16" TextColor="Gray" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <BoxView CornerRadius="200"
+                     Grid.Row="1"
+                     Grid.ColumnSpan="2"
+                     BackgroundColor="White"
+                     Opacity="0.3"
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand"
+                     HeightRequest="350"
+                     WidthRequest="350">
+                </BoxView>
+                <BoxView CornerRadius="200"
+                     Grid.Row="1"
+                     Grid.ColumnSpan="2"
+                     BackgroundColor="White"
+                     Opacity="0.2"
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand"
+                     HeightRequest="320"
+                     WidthRequest="320">
+                </BoxView>
+                <BoxView CornerRadius="200"
+                     Grid.Row="1"
+                     Grid.ColumnSpan="2"
+                     BackgroundColor="White"
+                     Opacity="0.3"
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand"
+                     HeightRequest="300"
+                     WidthRequest="300">
+                </BoxView>
+                <BoxView CornerRadius="200"
+                     Grid.Row="1"
+                     Grid.ColumnSpan="2"
+                     BackgroundColor="White"
+                     Opacity="0.4"
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand"
+                     HeightRequest="280"
+                     WidthRequest="280">
+                </BoxView>
+
+                <yummy:PancakeView CornerRadius="140"
+                               Grid.Row="1"
+                               Grid.ColumnSpan="2"
+                               HorizontalOptions="CenterAndExpand"
+                               VerticalOptions="CenterAndExpand" 
+                               HeightRequest="280"
+                               WidthRequest="280"
+                               sharedTransitions:Transition.Name="PlayMusicPancake"
+                                   
+                                   >
+                    <Image Source="{Binding SelectMusic.Image,TargetNullValue='MusicIcon.png'}"
+                       Aspect="AspectFit"
+                           sharedTransitions:Transition.Name="PlayMusicImage">
+
+                    </Image>
+                </yummy:PancakeView>
+                <Button Text=""
+                   FontFamily="FontAwesomeSolid"
+                   FontSize="40"
+                    HeightRequest="80"
+                    WidthRequest="80"
+                   TextColor="#214285"
+                   Command="{Binding PlayCommand}"
+                   BackgroundColor="White"
+                   CornerRadius="40"
+                   Grid.Row="2"
+                   Grid.ColumnSpan="2"
+                   HorizontalOptions="CenterAndExpand"
+                   TranslationY="-70"
+                    TranslationX="5">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button"
+                                     Binding="{Binding SelectMusic.IsPlaying}"
+                                     Value="false ">
+                            <Setter Property="Text" Value=""/>
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Button Text=""
+                   FontFamily="FontAwesomeSolid"
+                   FontSize="40"
+                   Grid.Row="2"
+                   TextColor="White"
+                        TranslationX="20"
+                        BackgroundColor="Transparent"
+                    HorizontalOptions="CenterAndExpand"
+                   Command="{Binding ChangeMusicCommand}" CommandParameter="P">
+                </Button>
+                <Button Text=""
+                   FontFamily="FontAwesomeSolid"
+                   TranslationX="95"
+                   HorizontalOptions="CenterAndExpand"
+                   FontSize="40"
+                        BackgroundColor="Transparent"
+                   Grid.ColumnSpan="2"
+                   Grid.Row="2"
+                   TextColor="White"
+                        Command="{Binding ChangeMusicCommand}" CommandParameter="N">
+                </Button>
+                <Slider Grid.Row="3"
+                    Grid.ColumnSpan="2"
+                    ThumbColor="White"
+                        MinimumTrackColor="DodgerBlue"
+                        Maximum="{Binding Maximum}"
+                        ValueChanged="Slider_ValueChanged"
+                        Value="{Binding Position.TotalSeconds,Mode=TwoWay}"
+                    Margin="25"/>
+                <Label Text="{Binding Position, StringFormat='{0:mm\\:ss}'}"
+                   Grid.Row="3"
+                   Grid.Column="0"
+                   TextColor="White"
+                       FontSize="20"
+                   VerticalOptions="EndAndExpand"
+                   HorizontalOptions="CenterAndExpand"
+                   Margin="0,0,60,0"/>
+                <Label Text="{Binding Duration, StringFormat='{0:mm\\:ss}'}"
+                   VerticalOptions="EndAndExpand"
+                   Margin="60,0,0,0"
+                   TextColor="White"
+                       FontSize="20"
+                   HorizontalOptions="CenterAndExpand"
+                   Grid.Row="3"
+                   Grid.Column="1"/>
+            </Grid>
+        </yummy:PancakeView>
+    </ContentPage.Content>
+</ContentPage>
